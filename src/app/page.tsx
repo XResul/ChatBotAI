@@ -33,6 +33,10 @@ export default function HomePage() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const handleDelete = (id: number) => {
+    setChats(chats.filter((c) => c.id !== id));
+  };
+
   useEffect(() => {
     if (activeChat !== null) {
       const saved = localStorage.getItem(`chat-${activeChat}`);
@@ -45,7 +49,7 @@ export default function HomePage() {
     if (activeChat !== null) {
       localStorage.setItem(`chat-${activeChat}`, JSON.stringify(messages));
     }
-  }, [messages, activeChat]);
+  }, [messages]);
 
   const sendMessage = (text: string) => {
     if (!text.trim()) return;
@@ -89,6 +93,7 @@ export default function HomePage() {
         isMobile={isMobile}
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
+        deleteChat={handleDelete}
       />
 
       {/* Chat alanı */}

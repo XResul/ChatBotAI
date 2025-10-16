@@ -1,6 +1,3 @@
-// Sidebar.tsx
-"use client";
-
 import { MessageCircle, Settings, User, Plus, Menu } from "lucide-react";
 
 interface Chat {
@@ -13,6 +10,7 @@ interface SidebarProps {
   setActiveChat: (id: number) => void;
   chats: Chat[];
   addNewChat: () => void;
+  deleteChat: (id: number) => void;
   isMobile: boolean;
   isSidebarOpen: boolean;
   setIsSidebarOpen: (open: boolean) => void;
@@ -24,12 +22,13 @@ export default function Sidebar({
   chats,
   addNewChat,
   isMobile,
+  deleteChat,
   isSidebarOpen,
   setIsSidebarOpen,
 }: SidebarProps) {
   return (
     <div
-      className={`fixed top-0 left-0 h-screen bg-[#095f79] text-white flex flex-col transition-transform duration-300 z-50
+      className={`fixed top-0 left-0 h-screen bg-[#095f79] text-white flex flex-col transition-transform duration-500 z-50
         ${
           isMobile
             ? isSidebarOpen
@@ -48,8 +47,8 @@ export default function Sidebar({
             onClick={() => setIsSidebarOpen(false)}
             className="cursor-pointer"
           >
+            {/* Hamburgermenusyaptım */}
             <Menu />
-            ssssssssss
           </button>
         )}
       </div>
@@ -65,19 +64,27 @@ export default function Sidebar({
       {/* Mesaj geçmişi */}
       <nav className="flex flex-col mt-2 px-2 flex-1 overflow-y-auto">
         {chats.map((chat) => (
-          <button
-            key={chat.id}
-            onClick={() => {
-              setActiveChat(chat.id);
-              if (isMobile) setIsSidebarOpen(false);
-            }}
-            className={`flex items-center gap-3 p-2 rounded hover:bg-blue-600 transition-colors ${
-              activeChat === chat.id ? "bg-blue-700" : ""
-            }`}
-          >
-            <MessageCircle />
-            {chat.title}
-          </button>
+          <div key={chat.id} className="flex flex-row space-x-5 space-y-1">
+            <button
+              key={chat.id}
+              onClick={() => {
+                setActiveChat(chat.id);
+                if (isMobile) setIsSidebarOpen(!isSidebarOpen);
+              }}
+              className={`flex items-center gap-3 p-2 rounded hover:bg-blue-600 transition-colors ${
+                activeChat === chat.id ? "bg-blue-700" : ""
+              }`}
+            >
+              <MessageCircle />
+              {chat.title}
+            </button>
+            <button
+              onClick={() => deleteChat(chat.id)}
+              className=" text-red-400 text-lg rounded-2xl w-20"
+            >
+              Sil
+            </button>
+          </div>
         ))}
 
         <a

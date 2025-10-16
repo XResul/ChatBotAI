@@ -1,5 +1,3 @@
-"use client";
-
 interface InputBarProps {
   input: string;
   setInput: (val: string) => void;
